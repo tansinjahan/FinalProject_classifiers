@@ -6,7 +6,7 @@ import t3utility as t3
 # class 1 points generation from dataset
 filepath1 = t3.currentFilePath('training_class1.csv')
 trainingset_class1 = np.genfromtxt(filepath1, dtype=float, delimiter=',')
-trainingset_class1 = t3.getSelectedColumns(trainingset_class1, (2, 4, 6, 11, 15, 17))
+trainingset_class1 = t3.getSelectedColumns(trainingset_class1, (2,10,11,14,17,18))
 np.savetxt("class1.csv",trainingset_class1,delimiter=",")
 
 class1_points,class1_col = trainingset_class1.shape
@@ -14,7 +14,7 @@ class1_points,class1_col = trainingset_class1.shape
 # class 2 points generation from dataset
 filepath2 = t3.currentFilePath('training_class2.csv')
 trainingset_class2 = np.genfromtxt(filepath2, dtype=float, delimiter=',')
-trainingset_class2 = t3.getSelectedColumns(trainingset_class2, (2, 4, 6, 11, 15, 17))
+trainingset_class2 = t3.getSelectedColumns(trainingset_class2, (2,10,11,14,17,18))
 np.savetxt("class2.csv",trainingset_class2,delimiter=",")
 
 class2_points,class2_col = trainingset_class2.shape

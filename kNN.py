@@ -57,12 +57,14 @@ def k_fold_cross_validation(X, K):
 		yield training, validation
 
 def getAccuracy(class_points, predictions):
+    acc = 0
     for training_x1, validation_x1 in k_fold_cross_validation(class_points,5):
+        correct = 0
         for x in range(0,len(validation_x1)):
-            correct = 0
             if validation_x1[x][-1] == predictions[x]:
                 correct += 1
-    return (correct / float(len(validation_x1))) * 100.0 * 100.0
+        acc = acc+ (correct / float(len(validation_x1)))* 100.0
+    return (acc/5)
 
 def main_cal(filename):
     # prepare data

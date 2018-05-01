@@ -100,8 +100,8 @@ def discriminant_function_X1X3(A,B,C):
 
     for x1 in np.arange(-15,10,0.1):
         #for X1 - X3 domain
-        p = A[2][2]
-        q = ((A[0][2] * x1)+ (A[2][0] * x1) +B[2])
+        p = A[4][4]
+        q = ((A[0][4] * x1)+ (A[4][0] * x1) +B[4])
         r = A[0][0] * x1 *x1 + B[0] * x1 + C
 
         coef_array = np.array([p,q,r])
@@ -120,8 +120,8 @@ def discriminant_function_X1X2(A,B,C):
 
     for x1 in np.arange(-15, 20, 0.1):
         # for X1 - X2 domain
-        m = A[1][1]
-        n = ((A[0][1] * x1) + (A[1][0] * x1) + B[1])
+        m = A[5][5]
+        n = ((A[0][5] * x1) + (A[5][0] * x1) + B[5])
         o = A[0][0] * x1 * x1 + B[0] * x1 + C
 
         coef_array = np.array([m, n, o])
@@ -136,7 +136,7 @@ def discriminant_function_X1X2(A,B,C):
 # parzen window calculate for a single feature
 def parzen_window_calculate(Name_of_class, sigma):
     className = Name_of_class
-    sample_points_first = className[:, 2]
+    sample_points_first = className[:, 3]
     sample_points_first = np.sort(sample_points_first)
 
     l1 = sample_points_first.size
@@ -145,7 +145,7 @@ def parzen_window_calculate(Name_of_class, sigma):
 
     random_X1 = np.random.rand(500,6)
 
-    random_X1_first = random_X1[:, 2]
+    random_X1_first = random_X1[:, 3]
     random_X1_first = np.sort(random_X1_first)
 
     max_1 = np.max(random_X1_first)

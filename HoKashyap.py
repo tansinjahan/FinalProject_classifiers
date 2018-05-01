@@ -52,26 +52,61 @@ def func_call(class_1,class_2):
         if(e_k >= 0 or k > k_max or (b_now == b_prev)):
             c = False
 
-    return a_k_1,b_k_1
+    return a_k_1,b_k_1,Y
 
 
 filepath1 = t3.currentFilePath('training_class1.csv')
 trainingset_class1 = np.genfromtxt(filepath1, dtype=float, delimiter=',')
-trainingset_class1 = t3.getSelectedColumns(trainingset_class1, (11, 12, 13, 14, 15, 17))
+trainingset_class1 = t3.getSelectedColumns(trainingset_class1, (2, 10, 11, 14, 17, 18))
 
 filepath2 = t3.currentFilePath('training_class2.csv')
 trainingset_class2 = np.genfromtxt(filepath2, dtype=float, delimiter=',')
-trainingset_class2 = t3.getSelectedColumns(trainingset_class2, (11, 12, 13, 14, 15, 17))
+trainingset_class2 = t3.getSelectedColumns(trainingset_class2, (2, 10, 11, 14, 17, 18))
 
-a,b = func_call(trainingset_class1,trainingset_class2)
-print("This is array of a and b ", a,b)
+a,b,Y = func_call(trainingset_class1,trainingset_class2)
+print("This is array of a and b and Y ", a,b,Y)
+print("Shape of Y", Y.shape)
+print("Shape of a", a.shape)
+print("Shape of b", b.shape)
+
+def HoKashClassifier(a,Y):
+        trupositive = 0
+        trunegative = 0
+        classificationPoints = np.dot(a,Y)
+        if classificationPoints > 0:
+            trupositive = trupositive +1
+        else:
+            trunegative = trunegative +1
+
+        return trupositive,trunegative
+
+def k_fold_cross_validation(X, K):
+	for k in range(K):
+		training = [x for i, x in enumerate(X) if i % K != k]
+		validation = [x for i, x in enumerate(X) if i % K == k]
+		yield training, validation
+
+def k_fold(class_points,k,a):
+    acc = 0
+    for training_x1, validation_x1 in k_fold_cross_validation(class_points, k):
+        accuracy = 0
+        for i in range(0, len(validation_x1)):
+            temp = np.transpose(a)
+            temp1= np.dot(temp,validation_x1[i])
+            if temp1 > 0 and validation_x1[i][0] > 0 :
+                accuracy = accuracy +1
+        acc = acc + (accuracy/float(len(validation_x1)))*100
+    return (acc/k)
+
+acc = k_fold(Y,5,a)
+print("This is the accuracy(5 fold) before diagonalization", acc)
 
 def plot_HoKashyap(a,b):
     plot_x = np.array([])
     plot_y = np.array([])
     for x in range(-60,10,1):
-        a_temp = a[1] * a[2]
-        b_temp = b[1] * b[2]
+        a_temp = a[1]
+        b_temp = a[0]
         y_temp = np.multiply(a_temp,np.asarray(x))
         y = y_temp + b_temp
         plot_x = np.append(plot_x,np.asarray(x))
@@ -80,6 +115,18 @@ def plot_HoKashyap(a,b):
     return plot_x,plot_y
 
 plot_x, plot_y = plot_HoKashyap(a,b)
-plot.generate_plot_for_HoKashyap(trainingset_class1,trainingset_class2,plot_x,plot_y)
+plot.generate_plot_for_HoKashyap(trainingset_class1,trainingset_class2,plot_x,plot_y,'before')
 
+filepath3 = t3.currentFilePath('diag_data_V1.csv')
+dia_tr_V1 = np.genfromtxt(filepath3, dtype=float, delimiter=',')
+filepath4 = t3.currentFilePath('diag_data_V2.csv')
+dia_tr_V2 = np.genfromtxt(filepath4, dtype=float, delimiter=',')
+
+a_V,b_V,Y_V = func_call(dia_tr_V1,dia_tr_V2)
+
+acc_v = k_fold(Y_V,5,a_V)
+print("This is the accuracy(5 fold) after diagonalization", acc_v)
+
+plot_v_x, plot_v_y = plot_HoKashyap(a_V,b_V)
+plot.generate_plot_for_HoKashyap(dia_tr_V1,dia_tr_V2,plot_v_x,plot_v_y,'after')
 
