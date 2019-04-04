@@ -16,3 +16,7 @@ signs of diabetic retinopathy or not.
 | Data set Characteristics | Attribute Characteristics| Number of Instances | Number of Attributes | Missing Values | Associated Tasks |
 |:------------------------:|:------------------------:|:-------------------:|:--------------------:|:--------------:|:----------------:|
 |Multivariate              |Integer, Real             |1151                 |20                    |N/A             |classification    |
+
+##### instruction to run:
+
+python diabetic_classification.py
