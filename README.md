@@ -2,7 +2,7 @@
 ##### This project builds a PR system with Diabetic Retinopathy image data. We used four classifiers for training and testing purposes.
 
 Traditional classifiers – 
-* Quadtratic classifier 
+* Quadratic classifier 
 * K Nearest neighbour
 
 Linear classifiers – 
